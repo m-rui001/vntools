@@ -1,0 +1,141 @@
+# NMakefile for vntools
+
+CC     = cl.exe
+AR     = lib.exe
+LINK   = link.exe
+
+ZLIB_INC =
+ZLIB_LIB = zlib.lib
+
+CFLAGS_BASE  = /nologo /W3 /O2 /TC /Ilib
+CFLAGS       = $(CFLAGS_BASE)
+CFLAGS_OMP   = $(CFLAGS_BASE) /openmp
+
+LFLAGS       = /nologo
+LFLAGS_OMP   = /nologo
+
+LIBDIR = lib\objs
+
+LIBCOMMON_OBJS = \
+	$(LIBDIR)\xmkdir.obj \
+	$(LIBDIR)\xprintf.obj \
+	$(LIBDIR)\cp932.obj \
+	$(LIBDIR)\cp932table.obj \
+	$(LIBDIR)\win32compat.obj \
+	$(LIBDIR)\normalize.obj \
+	$(LIBDIR)\swap.obj \
+	$(LIBDIR)\lzss.obj \
+	$(LIBDIR)\rgb565.obj \
+	$(LIBDIR)\bmp_read.obj \
+	$(LIBDIR)\strcasecmp.obj
+
+LIBCOMMON = lib\libcommon.lib
+
+ALL_TARGETS = \
+	opk.exe \
+	cromwell_pak_unpack.exe \
+	nekopunch_unpack.exe \
+	arcx_unpack.exe \
+	mif_unpack.exe \
+	ng3_unpack.exe \
+	cgd2bmp.exe \
+	ggp_decrypt.exe \
+	sm2mpx10.exe \
+	ifl_unpack.exe \
+	ifl_pack.exe \
+	succubus_arc_unpack.exe \
+	studio-sakura_unpack.exe \
+	hiz_unpack.exe
+
+all: $(LIBDIR) $(LIBCOMMON) $(ALL_TARGETS)
+
+$(LIBDIR):
+	if not exist $(LIBDIR) mkdir $(LIBDIR)
+
+$(LIBCOMMON): $(LIBCOMMON_OBJS)
+	$(AR) /nologo /OUT:$(LIBCOMMON) $(LIBCOMMON_OBJS)
+
+$(LIBDIR)\xmkdir.obj: lib\xmkdir.c lib\xmkdir.h lib\xprintf.h
+	$(CC) $(CFLAGS) /c lib\xmkdir.c /Fo$(LIBDIR)\xmkdir.obj
+
+$(LIBDIR)\xprintf.obj: lib\xprintf.c lib\xprintf.h
+	$(CC) $(CFLAGS) /c lib\xprintf.c /Fo$(LIBDIR)\xprintf.obj
+
+$(LIBDIR)\cp932.obj: lib\cp932.c lib\cp932.h
+	$(CC) $(CFLAGS) /c lib\cp932.c /Fo$(LIBDIR)\cp932.obj
+
+$(LIBDIR)\cp932table.obj: lib\cp932table.c
+	$(CC) $(CFLAGS) /c lib\cp932table.c /Fo$(LIBDIR)\cp932table.obj
+
+$(LIBDIR)\win32compat.obj: lib\win32compat.c lib\win32compat.h
+	$(CC) $(CFLAGS) /c lib\win32compat.c /Fo$(LIBDIR)\win32compat.obj
+
+$(LIBDIR)\normalize.obj: lib\normalize.c lib\normalize.h
+	$(CC) $(CFLAGS) /c lib\normalize.c /Fo$(LIBDIR)\normalize.obj
+
+$(LIBDIR)\swap.obj: lib\swap.c lib\swap.h
+	$(CC) $(CFLAGS) /c lib\swap.c /Fo$(LIBDIR)\swap.obj
+
+$(LIBDIR)\lzss.obj: lib\lzss.c lib\lzss.h
+	$(CC) $(CFLAGS) /c lib\lzss.c /Fo$(LIBDIR)\lzss.obj
+
+$(LIBDIR)\rgb565.obj: lib\rgb565.c lib\rgb565.h
+	$(CC) $(CFLAGS) /c lib\rgb565.c /Fo$(LIBDIR)\rgb565.obj
+
+$(LIBDIR)\bmp_read.obj: lib\bmp_read.c lib\bmp_read.h lib\readint.h
+	$(CC) $(CFLAGS) /c lib\bmp_read.c /Fo$(LIBDIR)\bmp_read.obj
+
+$(LIBDIR)\strcasecmp.obj: lib\strcasecmp.c lib\strcasecmp.h
+	$(CC) $(CFLAGS) /c lib\strcasecmp.c /Fo$(LIBDIR)\strcasecmp.obj
+
+opk.exe: cromwell\opk.c $(LIBCOMMON)
+	$(CC) $(CFLAGS_OMP) cromwell\opk.c /Fe$@ /link $(LFLAGS_OMP) $(LIBCOMMON)
+
+cromwell_pak_unpack.exe: cromwell\pak_unpack.c $(LIBCOMMON)
+!if "$(ZLIB_INC)" != ""
+	$(CC) $(CFLAGS_OMP) /I"$(ZLIB_INC)" cromwell\pak_unpack.c /Fe$@ /link $(LFLAGS_OMP) "$(ZLIB_LIB)" $(LIBCOMMON)
+!else
+	$(CC) $(CFLAGS_OMP) cromwell\pak_unpack.c /Fe$@ /link $(LFLAGS_OMP) $(ZLIB_LIB) $(LIBCOMMON)
+!endif
+
+nekopunch_unpack.exe: nekopunch\nekopunch_unpack.c $(LIBCOMMON)
+	$(CC) $(CFLAGS) nekopunch\nekopunch_unpack.c /Fe$@ /link $(LFLAGS) $(LIBCOMMON)
+
+arcx_unpack.exe: ARCX\arcx_unpack.c $(LIBCOMMON)
+	$(CC) $(CFLAGS_OMP) ARCX\arcx_unpack.c /Fe$@ /link $(LFLAGS_OMP) $(LIBCOMMON)
+
+mif_unpack.exe: basil\mif_unpack.c $(LIBCOMMON)
+	$(CC) $(CFLAGS) basil\mif_unpack.c /Fe$@ /link $(LFLAGS) $(LIBCOMMON)
+
+ng3_unpack.exe: basil\ng3_unpack.c
+	$(CC) $(CFLAGS) basil\ng3_unpack.c /Fe$@ /link $(LFLAGS)
+
+cgd2bmp.exe: carriere\cgd2bmp.c
+	$(CC) $(CFLAGS) carriere\cgd2bmp.c /Fe$@ /link $(LFLAGS)
+
+ggp_decrypt.exe: ikura\ggp_decrypt.c
+	$(CC) $(CFLAGS) ikura\ggp_decrypt.c /Fe$@ /link $(LFLAGS)
+
+sm2mpx10.exe: ikura\sm2mpx10.c $(LIBCOMMON)
+	$(CC) $(CFLAGS_OMP) ikura\sm2mpx10.c /Fe$@ /link $(LFLAGS_OMP) $(LIBCOMMON)
+
+ifl_unpack.exe: silky\ifl_unpack.c $(LIBCOMMON)
+	$(CC) $(CFLAGS_OMP) silky\ifl_unpack.c /Fe$@ /link $(LFLAGS_OMP) $(LIBCOMMON)
+
+ifl_pack.exe: silky\ifl_pack.c
+	$(CC) $(CFLAGS) silky\ifl_pack.c /Fe$@ /link $(LFLAGS)
+
+succubus_arc_unpack.exe: succubus\succubus_arc_unpack.c
+	$(CC) $(CFLAGS) succubus\succubus_arc_unpack.c /Fe$@ /link $(LFLAGS)
+
+studio-sakura_unpack.exe: studio-sakura\studio-sakura_unpack.c $(LIBCOMMON)
+	$(CC) $(CFLAGS) "studio-sakura\studio-sakura_unpack.c" /Fe$@ /link $(LFLAGS) $(LIBCOMMON)
+
+hiz_unpack.exe: pinpai\hiz.c $(LIBCOMMON)
+	$(CC) $(CFLAGS) pinpai\hiz.c /Fe$@ /link $(LFLAGS) $(LIBCOMMON)
+
+clean:
+	if exist $(LIBDIR) rmdir /s /q $(LIBDIR)
+	if exist $(LIBCOMMON) del /q $(LIBCOMMON)
+	for %%f in ($(ALL_TARGETS)) do if exist %%f del /q %%f
+	for %%f in (*.pdb *.ilk) do if exist %%f del /q %%f
