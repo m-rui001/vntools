@@ -45,7 +45,7 @@ ALL_TARGETS = \
 	ifl_pack.exe \
 	succubus_arc_unpack.exe \
 	studio-sakura_unpack.exe \
-	hiz_unpack.exe
+	hiz.exe
 
 all: $(LIBDIR) $(LIBCOMMON) $(ALL_TARGETS)
 
@@ -131,7 +131,7 @@ succubus_arc_unpack.exe: succubus\succubus_arc_unpack.c
 studio-sakura_unpack.exe: studio-sakura\studio-sakura_unpack.c $(LIBCOMMON)
 	$(CC) $(CFLAGS) "studio-sakura\studio-sakura_unpack.c" /Fe$@ /link $(LFLAGS) $(LIBCOMMON)
 
-hiz_unpack.exe: pinpai\hiz.c $(LIBCOMMON)
+hiz.exe: pinpai\hiz.c $(LIBCOMMON)
 	$(CC) $(CFLAGS) pinpai\hiz.c /Fe$@ /link $(LFLAGS) $(LIBCOMMON)
 
 clean:

@@ -11,7 +11,8 @@ bin_PROGRAMS = \
 	ifl_unpack \
 	ifl_pack \
 	succubus_arc_unpack \
-	studio-sakura_unpack
+	studio-sakura_unpack \
+	hiz
 
 opk_SOURCES = cromwell/opk.c
 opk_CFLAGS = $(OPENMP_CFLAGS)
@@ -54,6 +55,8 @@ succubus_arc_unpack_SOURCES = succubus/succubus_arc_unpack.c
 
 studio_sakura_unpack_SOURCES = studio-sakura/studio-sakura_unpack.c
 studio_sakura_unpack_LDADD = lib/libcommon.a
+
+hiz_SOURCES = pinpai/hiz.c
 
 AM_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_builddir)
 
