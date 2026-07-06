@@ -41,8 +41,7 @@ ALL_TARGETS = \
 	cgd2bmp.exe \
 	ggp_decrypt.exe \
 	sm2mpx10.exe \
-	ifl_unpack.exe \
-	ifl_pack.exe \
+	ifl.exe \
 	succubus_arc_unpack.exe \
 	studio-sakura_unpack.exe \
 	hiz.exe
@@ -119,11 +118,8 @@ ggp_decrypt.exe: ikura\ggp_decrypt.c
 sm2mpx10.exe: ikura\sm2mpx10.c $(LIBCOMMON)
 	$(CC) $(CFLAGS_OMP) ikura\sm2mpx10.c /Fe$@ /link $(LFLAGS_OMP) $(LIBCOMMON)
 
-ifl_unpack.exe: silky\ifl_unpack.c $(LIBCOMMON)
-	$(CC) $(CFLAGS_OMP) silky\ifl_unpack.c /Fe$@ /link $(LFLAGS_OMP) $(LIBCOMMON)
-
-ifl_pack.exe: silky\ifl_pack.c
-	$(CC) $(CFLAGS) silky\ifl_pack.c /Fe$@ /link $(LFLAGS)
+ifl.exe: silky\ifl.c $(LIBCOMMON)
+	$(CC) $(CFLAGS_OMP) silky\ifl.c /Fe$@ /link $(LFLAGS_OMP) $(LIBCOMMON)
 
 succubus_arc_unpack.exe: succubus\succubus_arc_unpack.c
 	$(CC) $(CFLAGS) succubus\succubus_arc_unpack.c /Fe$@ /link $(LFLAGS)

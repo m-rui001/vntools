@@ -8,8 +8,7 @@ bin_PROGRAMS = \
 	cgd2bmp \
 	ggp_decrypt \
 	sm2mpx10 \
-	ifl_unpack \
-	ifl_pack \
+	ifl \
 	succubus_arc_unpack \
 	studio-sakura_unpack \
 	hiz
@@ -45,11 +44,10 @@ sm2mpx10_CFLAGS = $(OPENMP_CFLAGS)
 sm2mpx10_LDFLAGS = $(OPENMP_CFLAGS)
 sm2mpx10_LDADD = lib/libcommon.a
 
-ifl_unpack_SOURCES = silky/ifl_unpack.c
-ifl_unpack_LDADD = lib/libcommon.a
-ifl_unpack_CFLAGS = $(OPENMP_CFLAGS)
-ifl_unpack_LDFLAGS = $(OPENMP_CFLAGS)
-ifl_pack_SOURCES = silky/ifl_pack.c
+ifl_SOURCES = silky/ifl.c
+ifl_LDADD = lib/libcommon.a
+ifl_CFLAGS = $(OPENMP_CFLAGS)
+ifl_LDFLAGS = $(OPENMP_CFLAGS)
 
 succubus_arc_unpack_SOURCES = succubus/succubus_arc_unpack.c
 
