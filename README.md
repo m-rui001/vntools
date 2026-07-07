@@ -22,6 +22,7 @@ VNTools provides tools for handling various visual novel engine formats, allowin
 | Carriere | .CGD | Conversion to BMP only |
 | BasiL | .MIF | Unpacking only |
 | ARCX | .arc | Unpacking (repacking not necessary, runs with loose files) |
+| Pinpai | .hiz | Unpacking and packing |
 
 ## Contributing
 
