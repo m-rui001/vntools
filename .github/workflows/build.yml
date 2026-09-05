@@ -1,0 +1,39 @@
+name: Build VNTools on Ubuntu
+
+on:
+  push: # 当您向仓库推送代码时触发
+  workflow_dispatch: # 也允许您手动触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v4
+
+    - name: Install build dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y autoconf automake build-essential
+
+    - name: Autogen and Configure
+      run: |
+        ./autogen.sh
+        ./configure
+
+    - name: Make
+      run: make
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: vntools-binaries
+        path: |
+          cromwell/opk
+          cromwell/pak
+          ikura/ggp
+          ikura/sm2mpx10
+          nekopunch/nekopunch_unpack
+          silky/ifl
+          pinpai/hiz
+          # 其他在 make 后生成的工具可一并上传
