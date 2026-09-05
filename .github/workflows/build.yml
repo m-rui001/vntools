@@ -30,11 +30,16 @@ jobs:
       with:
         name: vntools-binaries
         path: |
-          cromwell/opk
-          cromwell/pak
-          ikura/ggp
-          ikura/sm2mpx10
-          nekopunch/nekopunch_unpack
-          silky/ifl
-          pinpai/hiz
-          # 如果有其他编译出的工具，也可以加在这里
+          opk
+          cromwell_pak_unpack
+          nekopunch_unpack
+          arcx_unpack
+          mif_unpack
+          ng3_unpack
+          cgd2bmp
+          ggp_decrypt
+          sm2mpx10
+          ifl
+          succubus_arc_unpack
+          studio-sakura_unpack
+          hiz
