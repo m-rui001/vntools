@@ -20,9 +20,8 @@ jobs:
 
     - name: Generate configure script and build
       run: |
-        # 给 autogen.sh 添加执行权限后再运行
-        chmod +x ./autogen.sh
-        ./autogen.sh
+        # 使用 autoreconf 生成 configure（仓库中没有 autogen.sh）
+        autoreconf -fi
         ./configure
         make
 
