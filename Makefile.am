@@ -55,6 +55,7 @@ studio_sakura_unpack_SOURCES = studio-sakura/studio-sakura_unpack.c
 studio_sakura_unpack_LDADD = lib/libcommon.a
 
 hiz_SOURCES = pinpai/hiz.c
+hiz_LDADD = lib/libcommon.a
 
 AM_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_builddir)
 
