@@ -20,9 +20,8 @@ jobs:
 
     - name: Generate configure script and build
       run: |
-        # 给 autogen.sh 添加执行权限后再运行
-        chmod +x ./autogen.sh
-        ./autogen.sh
+        # 使用 autoreconf 生成 configure（仓库中没有 autogen.sh）
+        autoreconf -fi
         ./configure
         make
 
@@ -31,11 +30,16 @@ jobs:
       with:
         name: vntools-binaries
         path: |
-          cromwell/opk
-          cromwell/pak
-          ikura/ggp
-          ikura/sm2mpx10
-          nekopunch/nekopunch_unpack
-          silky/ifl
-          pinpai/hiz
-          # 如果有其他编译出的工具，也可以加在这里
+          opk
+          cromwell_pak_unpack
+          nekopunch_unpack
+          arcx_unpack
+          mif_unpack
+          ng3_unpack
+          cgd2bmp
+          ggp_decrypt
+          sm2mpx10
+          ifl
+          succubus_arc_unpack
+          studio-sakura_unpack
+          hiz

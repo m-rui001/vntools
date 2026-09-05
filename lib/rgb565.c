@@ -1,3 +1,5 @@
+#include <stddef.h>
+
 #include "rgb565.h"
 
 void rgb565_to_rgb888(uint16_t v, uint8_t rgb[3])
