@@ -1,12 +1,13 @@
 name: Build VNTools on Ubuntu
 
 on:
-  push: # 当您向仓库推送代码时触发
-  workflow_dispatch: # 也允许您手动触发
+  push:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout source code
       uses: actions/checkout@v4
@@ -14,15 +15,16 @@ jobs:
     - name: Install build dependencies
       run: |
         sudo apt update
-        sudo apt install -y autoconf automake build-essential
+        # 明确安装 autoconf, automake, libtool 等全套构建工具
+        sudo apt install -y autoconf automake libtool build-essential
 
-    - name: Autogen and Configure
+    - name: Generate configure script and build
       run: |
+        # 给 autogen.sh 添加执行权限后再运行
+        chmod +x ./autogen.sh
         ./autogen.sh
         ./configure
-
-    - name: Make
-      run: make
+        make
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
@@ -36,4 +38,4 @@ jobs:
           nekopunch/nekopunch_unpack
           silky/ifl
           pinpai/hiz
-          # 其他在 make 后生成的工具可一并上传
+          # 如果有其他编译出的工具，也可以加在这里
